@@ -16,6 +16,12 @@
   set_fact:
     CUR_VPLS_CRKTS : "{{ run_vpls_crkts | jnpr_get_vpls_circuits }}"
 
+- name: DEBUG
+  debug:
+    msg:
+    - "{{ vpls_circuits }}"
+    - "{{ CUR_VPLS_CRKTS }}"
+    
 - name: Build VPLS Crcuits to Deploy/Decommision
   set_fact:
     VPLS_CRKTS:

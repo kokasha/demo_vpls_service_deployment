@@ -1,9 +1,0 @@
-- name: Create all Required Folders
-  import_tasks: build_dir.yml
-
-- name: L3VPN // Create Data Model for L3VPN
-  blockinfile:
-    block: "{{ lookup('template','l3vpn.j2') }}"
-    path: "{{ host_vars_folder }}/{{ inventory_hostname }}/L3VPN.yml"
-    create: yes
-  tags: l3vpn

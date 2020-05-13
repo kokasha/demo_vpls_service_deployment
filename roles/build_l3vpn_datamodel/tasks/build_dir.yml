@@ -1,3 +1,0 @@
----
-- name: Create the Hostvars Folder
-  file: path={{ host_vars_folder }}/{{ inventory_hostname }} state=directory

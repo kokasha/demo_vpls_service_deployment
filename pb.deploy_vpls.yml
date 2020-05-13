@@ -13,19 +13,4 @@
       vars:
         ansible_connection: local
 
-    # - name: Get VPLS Instances
-    #   tags: get_vpls
-    #   junos_command:
-    #     commands: show configuration routing-instances
-    #     display: xml
-    #   register: vpls_output
-
-    # - name: Save Output
-    #   copy:
-    #     content: "{{ vpls_output.output[0] | to_nice_json}}"
-    #     dest: "{{inventory_hostname}}_vpls.json"
-    # - debug: var=vpls_output.output
-    #   run_once: yes
-    #   tags: get_vpls
-
       
