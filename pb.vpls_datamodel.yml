@@ -12,18 +12,4 @@
         name: vpls_datamodel
       when: "'pe' in group_names"
 
-    # - debug:
-    #     msg: >-
-    #       {%  for vpn in vpls_domains %}
-    #       {%  set vpn_circuits = vpls_domains[vpn].sites | selectattr('node','equalto',inventory_hostname) | list %}
-    #       {%    if vpn_circuits %}
-    #       {{ vpn }}:
-    #           id: {{ vpls_domains[vpn].id }}
-    #           links:
-    #       {%      for ckt in vpn_circuits %}
-    #             - inteface: {{ ckt.interface }}
-    #               vlan: {{ ckt.vlan }}
-    #       {%      endfor %}
-    #       {%    endif %}
-    #       {% endfor %}
         
