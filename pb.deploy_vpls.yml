@@ -1,7 +1,7 @@
 ---
 
-- import_playbook: pb.vpls_datamodel.yml
-  when: vpls_data is not defined
+# - import_playbook: pb.vpls_datamodel.yml
+#   when: vpls_data is not defined
 
 - name: Deploy VPLS on Juniper
   hosts: pe
