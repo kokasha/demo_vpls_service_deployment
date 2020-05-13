@@ -13,5 +13,5 @@
 
 - name: Create VPLS facts
   set_fact:
-    vpls_circuits: "{{ lookup('template','vpls_dev.j2') }}"
+    vpls_circuits: "{{ lookup('template','vpls_dev.j2') | from_yaml }}"
     cacheable: true
