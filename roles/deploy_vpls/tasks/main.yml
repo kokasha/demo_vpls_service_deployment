@@ -35,6 +35,7 @@
   file:
     path: "vpls_tmp_conf"
     state: directory
+  changed_when: false
 
 - name: Create VPLS Configuration
   template:
