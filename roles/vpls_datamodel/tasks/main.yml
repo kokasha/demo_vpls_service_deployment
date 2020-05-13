@@ -1,0 +1,12 @@
+---
+# tasks file for vpls_datamodel
+- name: Creaet Host_Vars if not present
+  file:
+    name: "{{ host_vars_folder }}/{{ inventory_hostname }}"
+    state: directory
+
+- name: VPLS // Create Data Model for VPLS
+  blockinfile:
+    block: "{{ lookup('template','vpls.j2') }}"
+    path: "{{ host_vars_folder }}/{{ inventory_hostname }}/VPLS.yml"
+    create: yes

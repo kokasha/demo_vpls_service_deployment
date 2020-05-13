@@ -1,0 +1,48 @@
+---
+# tasks file for deploy_vpls
+
+- name: Get VPLS Instances
+  tags: get_vpls
+  junos_command:
+    commands: show configuration routing-instances
+    display: xml
+  register: vpls_output
+
+- name: Extract VPLS Instances
+  set_fact:
+    run_vpls_crkts: "{{ vpls_output.output[0]['rpc-reply']['configuration']['routing-instances']['instance']  }}"
+
+- name: Get Current VPLS Circuits
+  set_fact:
+    CUR_VPLS_CRKTS : "{{ run_vpls_crkts | jnpr_get_vpls_circuits }}"
+
+- name: Build VPLS Crcuits to Deploy/Decommision
+  set_fact:
+    VPLS_CRKTS:
+        cleanup: "{{ CUR_VPLS_CRKTS.keys() | list | difference(vpls_circuits.keys() | list) }}"
+        deploy: "{{ vpls_circuits.keys() | list | difference(CUR_VPLS_CRKTS.keys() | list) }}"
+
+- name: DEBUG >> VPLS Circuits to be changes
+  debug: var=VPLS_CRKTS
+  
+- name: Create Config Directory
+  file:
+    path: "vpls_tmp_conf"
+    state: directory
+
+- name: Create VPLS Configuration
+  template:
+    src: vpls_config_dev.j2
+    dest: "vpls_tmp_conf/{{ inventory_hostname }}.cfg"
+  when: VPLS_CRKTS.deploy|length >0 or VPLS_CRKTS.cleanup|length > 0
+
+- name: Push VPLS Configuration
+  junos_config:
+    src: "vpls_tmp_conf/{{ inventory_hostname }}.cfg"
+    src_format: set
+  when: VPLS_CRKTS.deploy|length >0 or VPLS_CRKTS.cleanup|length > 0
+  tags: 
+    - deploy
+
+  vars:
+    ansible_connection: netconf

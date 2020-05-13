@@ -1,0 +1,10 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+---
+vpls_circuits:
+    BNG_01:
+        id: 1001
+        links:
+            - interface: ge-0/0/3
+              vlan: 4001
+              site_id: 1
+# END ANSIBLE MANAGED BLOCK

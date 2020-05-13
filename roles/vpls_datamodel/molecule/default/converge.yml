@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include vpls_datamodel"
+      include_role:
+        name: "vpls_datamodel"

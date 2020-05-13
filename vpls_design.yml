@@ -1,0 +1,38 @@
+---
+# desired state in host_vars
+vpls_domains:
+  BNG_01:
+    id: 1001
+    sites:
+      - node: R02
+        interface: ge-0/0/3
+        vlan: 4001
+        site_id: 1
+      - node: R04
+        interface: ge-0/0/2
+        vlan: 4001
+        site_id: 2
+
+  BNG_02:
+    id: 1002
+    sites:
+      - node: R03
+        interface: ge-0/0/3
+        vlan: 4002
+        site_id: 1
+      - node: R04
+        interface: ge-0/0/2
+        vlan: 4002
+        site_id: 2
+
+  # BNG_03:
+  #   id: 1003
+  #   sites:
+  #     - node: R03
+  #       interface: ge-0/0/3
+  #       vlan: 4003
+  #       site_id: 1
+  #     - node: R04
+  #       interface: ge-0/0/2
+  #       vlan: 4003
+  #       site_id: 2

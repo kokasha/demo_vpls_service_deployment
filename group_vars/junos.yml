@@ -1,0 +1,6 @@
+---
+ansible_network_os: junos
+ansible_connection: netconf
+ansible_user: ansible
+ansible_ssh_pass: ansible123
+ansible_python_interpreter: /Users/kokasha/OneDrive/Redhat_Work/projects/Optus/net_automation/mobile_core/.ansible29/bin/python

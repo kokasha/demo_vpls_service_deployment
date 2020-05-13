@@ -1,0 +1,16 @@
+---
+l3vpn:
+{%  for vpn in l3vpn_design %}
+{%  set vpn_circuits = l3vpn_design[vpn].sites | 
+                           selectattr('node','equalto',inventory_hostname) | list %}
+{%    if vpn_circuits %}
+    {{ vpn }}:
+        id: {{ l3vpn_design[vpn].id }}
+        links:
+{%      for crc in vpn_circuits %}
+            - inteface: {{ crc.interface }}
+              vlan: {{ crc.vlan }}
+              ip_address: {{ crc.subnet | ipv4(1) }}
+{%      endfor %}
+{%    endif %}
+{% endfor %}

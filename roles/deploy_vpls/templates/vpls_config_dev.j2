@@ -1,0 +1,28 @@
+
+{#  Generate Configuration for Decommission #}
+{%  for vpn in VPLS_CRKTS.cleanup %}
+delete interfaces {{ CUR_VPLS_CRKTS[vpn].links }}
+delete routing-instances {{ vpn }}
+{%  endfor %}
+
+{#  Generate Configuration for Deploy #}
+{%  for vpn in vpls_circuits %}
+{%      if vpn in VPLS_CRKTS.deploy %}
+{%          for l in vpls_circuits[vpn].links %}
+set interfaces {{ l.interface }} flexible-vlan-tagging
+set interfaces {{ l.interface }} encapsulation flexible-ethernet-services
+set interfaces {{ l.interface }} unit {{ l.vlan }} encapsulation vlan-vpls
+set interfaces {{ l.interface }} unit {{ l.vlan }} vlan-id {{ l.vlan }}
+{%          endfor %}
+
+set routing-instances {{ vpn }} instance-type vpls
+{%          for l in vpls_circuits[vpn].links %}
+set routing-instances {{ vpn }} interface {{ l.interface }}.{{ l.vlan }}
+{%          endfor %}
+set routing-instances {{ vpn }} route-distinguisher {{ lo_ip[inventory_hostname].ip | ipaddr('address') }}:{{ vpls_circuits[vpn].id }}
+set routing-instances {{ vpn }} vrf-target target:{{ bgp_asn }}:{{ vpls_circuits[vpn].id }}
+{%          for l in vpls_circuits[vpn].links %}
+set routing-instances {{ vpn }} protocols vpls site {{ l.site_id }} site-identifier {{ l.site_id }}
+{%          endfor %}
+{%      endif %}
+{%  endfor %}

@@ -1,0 +1,69 @@
+{%  set ibgp_peers = bgp_peers[inventory_hostname] | selectattr('type','!=','ebgp') | list %}
+{%  set ebgp_peers = bgp_peers[inventory_hostname] | selectattr('type','==','ebgp') | list %}
+{%  set ebgp_group = 'eBGP_PEERS' %}
+{%  if ibgp_peers %}
+{%      if inventory_hostname in bgp_topo.rr %}
+{%          set ibgp_group = 'CORE_RR_CLIENT' %}
+{%      else %}
+{%          set ibgp_group = 'CORE_RR' %}
+{%      endif %}
+{%  endif %}
+protocols {
+{#
+**************************************************
+###         BGP  Variables                  ######
+**************************************************
+#}
+    bgp {
+{%  if ibgp_peers %}
+        group {{ ibgp_group }} {
+            type internal;
+
+            local-address {{ lo_ip[inventory_hostname].ip | ipaddr('address')}};
+{%          if inventory_hostname in bgp_topo.rr %}
+            cluster {{ lo_ip[inventory_hostname].ip | ipaddr('address') }};
+{%          endif %}
+{%          for af in bgp_topo.bgp_afs %}
+{%              if af == 'ipv4' %}
+            family inet {               
+                unicast;
+            }
+{%              endif %}
+{%              if af == 'l3vpn' %}
+            family inet-vpn {
+                unicast;
+            }
+{%              endif %}
+{%              if af == 'evpn' %}
+            family evpn {
+                signaling;
+            }
+{%              endif %}
+{%              if af == 'vpls' %}
+            family l2vpn {
+                signaling;
+            }
+{%              endif %}
+{%          endfor %}
+{%          for peer in ibgp_peers %}
+            neighbor {{ lo_ip[peer.peer_name].ip | ipaddr('address')}};
+{%          endfor %}
+        }
+{%  endif %}
+{%  if ebgp_peers %}
+        group {{ ebgp_group }} {
+            type external;
+            family inet {               
+                unicast;
+            }
+{%          for peer in ebgp_peers %}
+{%          set peer_ip = p2p_ip[inventory_hostname] | selectattr('peer','==',peer.peer_name) |
+                          map(attribute='peer_ip')| list | first %}
+            neighbor {{ peer_ip | ipaddr('address')}} {
+                peer-as {{ peer.remote_as }};
+            }  
+{%          endfor %}
+        }
+{%  endif %}
+    }
+}

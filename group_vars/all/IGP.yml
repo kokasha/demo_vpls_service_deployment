@@ -1,0 +1,6 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+igp_default_cost: 1000
+igp_protocol: ospf
+ospf_area: 0
+ospf_pid: 100
+# END ANSIBLE MANAGED BLOCK

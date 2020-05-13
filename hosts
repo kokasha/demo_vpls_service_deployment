@@ -1,0 +1,19 @@
+[core]
+R01    ansible_host=172.20.7.1
+R02    ansible_host=172.20.7.2
+R03    ansible_host=172.20.7.3
+R04    ansible_host=172.20.7.4
+
+[ce]
+CE01    ansible_host=172.20.7.5
+CE02    ansible_host=172.20.7.6
+
+[junos]
+R[01:04]
+CE[01:02]
+
+[pe]
+R[02:04]
+
+[p]
+R01

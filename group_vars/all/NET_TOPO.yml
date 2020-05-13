@@ -1,0 +1,66 @@
+# BEGIN ANSIBLE MANAGED BLOCK
+
+p2p_ip:
+  R01:
+    - port: ge-0/0/0
+      ip: 10.1.1.0/31
+      peer: R02
+      peer_ip: 10.1.1.1/31
+      pport: ge-0/0/0
+      cost: 10
+      area: 0
+    - port: ge-0/0/1
+      ip: 10.1.1.2/31
+      peer: R03
+      peer_ip: 10.1.1.3/31
+      pport: ge-0/0/0
+      cost: 10
+      area: 0
+    - port: ge-0/0/2
+      ip: 10.1.1.4/31
+      peer: R04
+      peer_ip: 10.1.1.5/31
+      pport: ge-0/0/0
+      cost: 10
+      area: 0
+
+  R02:
+    - port: ge-0/0/0
+      ip: 10.1.1.1/31
+      peer: R01
+      peer_ip: 10.1.1.0/31
+      pport: ge-0/0/0
+      cost: 10
+      area: 0
+
+  R03:
+    - port: ge-0/0/0
+      ip: 10.1.1.3/31
+      peer: R01
+      peer_ip: 10.1.1.2/31
+      pport: ge-0/0/1
+      cost: 10
+      area: 0
+
+  R04:
+    - port: ge-0/0/0
+      ip: 10.1.1.5/31
+      peer: R01
+      peer_ip: 10.1.1.4/31
+      pport: ge-0/0/2
+      cost: 10
+      area: 0
+
+
+lo_ip:
+  R01: { port: lo0, ip: 10.100.1.1/32, state: up}
+  R02: { port: lo0, ip: 10.100.1.2/32, state: up}
+  R03: { port: lo0, ip: 10.100.1.3/32, state: up}
+  R04: { port: lo0, ip: 10.100.1.4/32, state: up}
+
+oob_mgmt_net:
+  R01 : { port: em0, ip: 172.20.7.1/28}
+  R02 : { port: em0, ip: 172.20.7.2/28}
+  R03 : { port: em0, ip: 172.20.7.3/28}
+  R04 : { port: em0, ip: 172.20.7.4/28}
+# END ANSIBLE MANAGED BLOCK

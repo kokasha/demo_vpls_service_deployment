@@ -1,0 +1,3 @@
+---
+# defaults file for vpls_datamodel
+host_vars_folder: host_vars
