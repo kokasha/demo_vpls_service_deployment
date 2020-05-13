@@ -25,14 +25,14 @@ vpls_domains:
         vlan: 4002
         site_id: 2
 
-  # BNG_03:
-  #   id: 1003
-  #   sites:
-  #     - node: R03
-  #       interface: ge-0/0/3
-  #       vlan: 4003
-  #       site_id: 1
-  #     - node: R04
-  #       interface: ge-0/0/2
-  #       vlan: 4003
-  #       site_id: 2
+  BNG_03:
+    id: 1003
+    sites:
+      - node: R03
+        interface: ge-0/0/3
+        vlan: 4003
+        site_id: 1
+      - node: R04
+        interface: ge-0/0/2
+        vlan: 4003
+        site_id: 2
